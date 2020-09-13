@@ -24,10 +24,6 @@ In this project, we use
 1. Import project with IntelliJ IDE  
     * Set JDK version, Set Scala version
     * Right click `recfun` dir > Add Framework Support > Select scala
-1. Edit `sbt.versions` in /project/build.properties
-    ```properties
-    sbt.version=1.3.13
-    ```
 1. Run `sbt`
 
 # Simple Guideline 
@@ -44,10 +40,3 @@ $ sbt
 > ~ testOnly recfun.PascalSuite     // Run only test on file changes
 > ~ testQuick                       // Run all tests on file changes
 ```
-
-
-in /project/build.properties Change sbt.version=1.3.13
-
-
-
-Project Folder > right click > Add Framework Support > select scala
