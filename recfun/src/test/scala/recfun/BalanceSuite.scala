@@ -24,4 +24,12 @@ class BalanceSuite extends FunSuite {
   test("balance: counting is not enough") {
     assert(!balance("())(".toList))
   }
+
+  test("balance: '(hello (world)(:))' is balanced") {
+    assert(balance("(hello (world)(:))".toList))
+  }
+
+  test("balance: '' is balanced") {
+    assert(balance("".toList))
+  }
 }

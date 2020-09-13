@@ -25,7 +25,21 @@ object Main {
   /**
    * Exercise 2
    */
-  def balance(chars: List[Char]): Boolean = ???
+  def balance(chars: List[Char]): Boolean = {
+    val parens: List[Char] = List()
+    def run(chars: List[Char], parens: List[Char]): Boolean = {
+      if (chars.isEmpty && parens.isEmpty) true
+      else if (chars.isEmpty && !parens.isEmpty) false
+      else if (chars.head != '(' && chars.head != ')') run(chars.tail, parens)
+      else if (chars.head == '(') run(chars.tail, chars.head +: parens)
+      else {
+        // chars.head == ')'
+        if (parens.isEmpty) false
+        else run(chars.tail, parens.tail)
+      }
+    }
+    run(chars, parens)
+  }
 
   /**
    * Exercise 3
