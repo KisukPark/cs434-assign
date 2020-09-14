@@ -44,5 +44,14 @@ object Main {
   /**
    * Exercise 3
    */
-  def countChange(money: Int, coins: List[Int]): Int = ???
+  def countChange(money: Int, coins: List[Int]): Int = {
+    if (money == 0) return 1
+    if (money <= 0) return 0
+
+    var count = 0
+    for (i <- 0 to coins.length - 1) {
+      count += countChange(money - coins(i), coins.slice(i, coins.length))
+    }
+    return count
+  }
 }
