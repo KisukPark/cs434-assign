@@ -1,8 +1,8 @@
 # Setup
 In this project, we use  
-* JDK 1.8
-* sbt 1.3.13
-* scala 2.13.3
+![JDK badge](https://img.shields.io/badge/JDK-1.8-orange)
+![sbt badge](https://img.shields.io/badge/sbt-1.3.13-blue)
+![scala badge](https://img.shields.io/badge/scala-2.13.3-red)
 
 ## Install JDK 1.8
 * `openjdk64-1.8.0.265`
