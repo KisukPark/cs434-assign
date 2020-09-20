@@ -141,4 +141,21 @@ class FunSetSuite extends FunSuite {
     }
   }
 
+  test("filter only contains elements of `s` which satisfy predicate `p`.") {
+    new TestSets {
+      val s = filter(s1, (i: Int) => i == 1)
+      assert(contains(s, 1), "Intersect not contains 1")
+      assert(!contains(s, 2), "Intersect not contains 2")
+      assert(!contains(s, 3), "Intersect not contains 3")
+    }
+  }
+
+  test("filter only contains elements of `s` which `p` holds.") {
+    new TestSets {
+      val s = filter(s1, s1)
+      assert(contains(s, 1), "Intersect not contains 1")
+      assert(!contains(s, 2), "Intersect not contains 2")
+      assert(!contains(s, 3), "Intersect not contains 3")
+    }
+  }
 }
