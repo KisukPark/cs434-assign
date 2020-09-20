@@ -176,4 +176,20 @@ class FunSetSuite extends FunSuite {
       assert(exists(diff(s1, s2), (i: Int) => i == 1), "Exists returns true 3r")
     }
   }
+
+  test("map tests") {
+    new TestSets {
+      val s = map(s1, (i: Int) => -i)
+      assert(contains(s, -1), "Map contains -1")
+      assert(!contains(s, 1), "Map not contains 1")
+    }
+  }
+
+  test("map tests 2") {
+    new TestSets {
+      val s = map(s2, (i: Int) => i * 2)
+      assert(contains(s, 4), "Map contains 4")
+      assert(!contains(s, 2), "Map not contains 2")
+    }
+  }
 }

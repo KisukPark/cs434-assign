@@ -78,7 +78,14 @@ object FunSets {
   /**
    * Returns a set transformed by applying `f` to each element of `s`.
    */
-  def map(s: Set, f: Int => Int): Set = ???
+  def map(s: Set, f: Int => Int): Set = {
+    def iteration(a: Int, acc: Set): Set = {
+      if (a > bound) acc
+      else if (contains(s, a)) iteration(a + 1, union(acc, singletonSet(f(a))))
+      else iteration(a + 1, acc)
+    }
+    iteration(-bound, (i: Int) => false)
+  }
 
   /**
    * Displays the contents of a set
