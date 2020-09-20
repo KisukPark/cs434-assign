@@ -129,33 +129,42 @@ class FunSetSuite extends FunSuite {
   test("diff only contains elements which are in `s` but not in `t`.") {
     new TestSets {
       val s = diff(s1, s2)
-      assert(contains(s, 1), "Intersect not contains 1")
-      assert(!contains(s, 2), "Intersect not contains 2")
+      assert(contains(s, 1), "Diff contains 1")
+      assert(!contains(s, 2), "Diff not contains 2")
     }
   }
 
   test("diff creates empty set with two same sets.") {
     new TestSets {
       val s = diff(s1, s1)
-      assert(!contains(s, 1), "Intersect not contains 1")
+      assert(!contains(s, 1), "Diff not contains 1")
     }
   }
 
   test("filter only contains elements of `s` which satisfy predicate `p`.") {
     new TestSets {
       val s = filter(s1, (i: Int) => i == 1)
-      assert(contains(s, 1), "Intersect not contains 1")
-      assert(!contains(s, 2), "Intersect not contains 2")
-      assert(!contains(s, 3), "Intersect not contains 3")
+      assert(contains(s, 1), "Filter contains 1")
+      assert(!contains(s, 2), "Filter not contains 2")
+      assert(!contains(s, 3), "Filter not contains 3")
     }
   }
 
   test("filter only contains elements of `s` which `p` holds.") {
     new TestSets {
       val s = filter(s1, s1)
-      assert(contains(s, 1), "Intersect not contains 1")
-      assert(!contains(s, 2), "Intersect not contains 2")
-      assert(!contains(s, 3), "Intersect not contains 3")
+      assert(contains(s, 1), "Filter contains 1")
+      assert(!contains(s, 2), "Filter not contains 2")
+      assert(!contains(s, 3), "Filter not contains 3")
+    }
+  }
+
+  test("forall return true with a satisfied predicate.") {
+    new TestSets {
+      assert(forall(s1, (i: Int) => i == 1), "Forall returns true 1")
+      assert(forall(s1, (i: Int) => i >= 0), "Forall returns true 2")
+      assert(forall(s2, (i: Int) => contains(s2, i)), "Forall returns true 3")
+      assert(!forall(s1, (i: Int) => i == 2), "Forall returns false")
     }
   }
 }
