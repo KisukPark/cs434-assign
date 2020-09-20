@@ -159,12 +159,21 @@ class FunSetSuite extends FunSuite {
     }
   }
 
-  test("forall return true with a satisfied predicate.") {
+  test("forall tests.") {
     new TestSets {
       assert(forall(s1, (i: Int) => i == 1), "Forall returns true 1")
       assert(forall(s1, (i: Int) => i >= 0), "Forall returns true 2")
       assert(forall(s2, (i: Int) => contains(s2, i)), "Forall returns true 3")
       assert(!forall(s1, (i: Int) => i == 2), "Forall returns false")
+    }
+  }
+
+  test("exists tests") {
+    new TestSets {
+      assert(exists(s1, (i: Int) => i >= 0), "Exists returns true 1")
+      assert(!exists(s1, (i: Int) => i <= 0), "Exists returns false 1")
+      assert(exists(union(s1, s2), (i: Int) => i == 2), "Exists returns true 2")
+      assert(exists(diff(s1, s2), (i: Int) => i == 1), "Exists returns true 3r")
     }
   }
 }
