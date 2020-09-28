@@ -66,7 +66,7 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def mostRetweeted: Tweet = ???
+  def mostRetweeted: Tweet
 
   /**
    * Returns a list containing all tweets of this set, sorted by retweet count
@@ -77,7 +77,7 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def descendingByRetweet: TweetList = ???
+  def descendingByRetweet: TweetList
 
 
   /**
@@ -106,11 +106,19 @@ abstract class TweetSet {
    * This method takes a function and applies it to every element in the set.
    */
   def foreach(f: Tweet => Unit): Unit
+
+  def isEmpty(): Boolean
 }
 
 class Empty extends TweetSet {
 
   override def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = acc
+
+  override def mostRetweeted: Tweet = throw new NoSuchElementException()
+
+  override def descendingByRetweet: TweetList = Nil
+
+  override def isEmpty(): Boolean = true
 
   /**
    * The following methods are already implemented
@@ -132,6 +140,26 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     else left.filterAcc(p, right.filterAcc(p, acc))
   }
 
+  override def mostRetweeted: Tweet = {
+    def max(a: Tweet, b: Tweet): Tweet = {
+      if (a.retweets > b.retweets) a else b
+    }
+
+    if (right.isEmpty && left.isEmpty) elem
+    else if (right.isEmpty && !left.isEmpty) max(elem, left.mostRetweeted)
+    else if (!right.isEmpty && left.isEmpty) max(elem, right.mostRetweeted)
+    else {
+      val maxChild = max(left.mostRetweeted, right.mostRetweeted)
+      max(elem, maxChild)
+    }
+  }
+
+  override def descendingByRetweet: TweetList = {
+    val max = this.mostRetweeted
+    new Cons(max, this.remove(max).descendingByRetweet)
+  }
+
+  override def isEmpty(): Boolean = false
 
   /**
    * The following methods are already implemented
