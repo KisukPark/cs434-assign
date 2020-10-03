@@ -32,6 +32,10 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
+  test("times(List(\'h\', \'e\', \'e\'))") {
+    assert(times(List('h', 'e', 'e', 'd')) === List(('h', 1), ('e', 2), ('d', 1)))
+  }
+
   test("string2chars(\"hello, world\")") {
     assert(string2Chars("hello, world") === List('h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd'))
   }
