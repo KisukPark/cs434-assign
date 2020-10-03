@@ -26,6 +26,12 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
+  test("chars of a leaf") {
+    new TestTrees {
+      assert(chars(Leaf('a', 2)) === List('a'))
+    }
+  }
+
   test("string2chars(\"hello, world\")") {
     assert(string2Chars("hello, world") === List('h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd'))
   }
