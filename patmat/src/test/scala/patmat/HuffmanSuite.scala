@@ -26,6 +26,16 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
+  test("chars of a leaf") {
+    new TestTrees {
+      assert(chars(Leaf('a', 2)) === List('a'))
+    }
+  }
+
+  test("times(List(\'h\', \'e\', \'e\'))") {
+    assert(times(List('h', 'e', 'e', 'd')) === List(('h', 1), ('e', 2), ('d', 1)))
+  }
+
   test("string2chars(\"hello, world\")") {
     assert(string2Chars("hello, world") === List('h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd'))
   }
@@ -39,9 +49,43 @@ class HuffmanSuite extends FunSuite {
     assert(combine(leaflist) === List(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4)))
   }
 
+  test("until of some leaf list") {
+    val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
+    assert(until(singleton, combine)(leaflist) === List(Fork(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4), List('e', 't', 'x'), 7)))
+  }
+
+  test("createCodeTree of List(\'e\', \'t\', \'x\', \'t\', \'x\', \'x\', \'x\')") {
+    val charList = List('e', 't', 'x', 't', 'x', 'x', 'x')
+    assert(createCodeTree(charList) === Fork(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4), List('e', 't', 'x'), 7))
+  }
+
+  test("decode of 001 with createCodeTree of List(\'e\', \'t\', \'x\', \'t\', \'x\', \'x\', \'x\')") {
+    val charList = List('e', 't', 'x', 't', 'x', 'x', 'x')
+    val tree = createCodeTree(charList)
+    assert(decode(tree, List(0, 0, 1)) === List('e', 'x'))
+  }
+
   test("decode and encode a very short text should be identity") {
     new TestTrees {
       assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
     }
+  }
+
+  test("codeBits of simple Code Table") {
+    val codeTable = List(('a', List(0, 1)), ('b', List(1, 0)))
+    assert(codeBits(codeTable)('b') === List(1, 0))
+  }
+
+  test("mergeCodeTables of simple two Code Table") {
+    val ct1 = List(('c', List(0, 0, 1)))
+    val ct2 = List(('a', List(0, 1)), ('b', List(1, 0)))
+    assert(mergeCodeTables(ct1, ct2).size === 3)
+    assert(mergeCodeTables(ct1, ct2)(2) === ('c', List(0, 0, 1)))
+  }
+
+  test("quickEncode a very short text should be identity") {
+    val charList = List('e', 't', 'x', 't', 'x', 'x', 'x')
+    val tree = createCodeTree(charList)
+    assert(quickEncode(tree)(List('e', 'x')) === List(0, 0, 1))
   }
 }
