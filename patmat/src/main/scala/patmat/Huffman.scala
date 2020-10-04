@@ -211,28 +211,13 @@ object Huffman {
 
     def encodeChar(tr: CodeTree)(char: Char, bits: List[Bit]): List[Bit] = {
       tr match {
-        case Leaf(c, w) => bits
-        case Fork(l, r, c, w) =>
-          (l, r) match {
-            case (a: Leaf, b: Leaf) =>
-              if (a.char == char) encodeChar(a)(char, bits ::: List(0))
-              else encodeChar(b)(char, bits ::: List(1))
-            case (a: Leaf, b: Fork) =>
-              if (a.char == char) encodeChar(a)(char, bits ::: List(0))
-              else encodeChar(b)(char, bits ::: List(1))
-            case (a: Fork, b: Leaf) =>
-              if (a.chars.contains(char)) encodeChar(a)(char, bits ::: List(0))
-              else encodeChar(b)(char, bits ::: List(1))
-            case (a: Fork, b: Fork) =>
-              if (a.chars.contains(char)) encodeChar(a)(char, bits ::: List(0))
-              else encodeChar(b)(char, bits ::: List(1))
-          }
+        case Leaf(_, _) => bits
+        case Fork(l, r, _, _) if chars(l).contains(char) => encodeChar(l)(char, bits ::: List(0))
+        case Fork(l, r, _, _) => encodeChar(r)(char, bits ::: List(1))
       }
     }
 
-    text
-      .map(char => encodeChar(tree)(char, List()))
-      .flatten
+    text.flatMap(char => encodeChar(tree)(char, List()))
   }
 
 
